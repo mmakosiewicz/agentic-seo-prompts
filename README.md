@@ -2,122 +2,328 @@
 
 Companion repo for the article "What is agentic SEO and how do you get started?". Each section below is a copy/paste prompt for **Agent A** to recreate one of the workflows in the post.
 
-Replace anything in **[brackets]** with your own values.
+Each prompt ends with a **strict output schema** (Markdown / CSV columns) so the agent returns something you can paste into a spreadsheet, ticket, or doc — not a wall of text. Replace anything in **[brackets]** with your own values.
 
 ---
 
 ## 1. Site Audit Discovery
-Run an Ahrefs Site Audit for **[your domain]** (use the site's primary crawl scope; if you have a country/language focus, include it).
 
-Deliverables (ranked top 10–15):
-1) **Issue** (technical SEO category, short label)
-2) **Evidence** (what the audit detected; include the exact issue summary Ahrefs provides)
-3) **Scope** (how many URLs affected, and sample URLs)
-4) **Impact estimate** (expected impact on traffic/crawl; high/med/low + 1–2 sentences)
-5) **Effort estimate** (low/med/high) and dependencies
-6) **Recommended fix** (concrete next step)
-7) **Acceptance criteria**
+Run an Ahrefs Site Audit for **[your domain]** (primary crawl scope; include country/language focus if relevant). Triage the issue list into a ranked fix queue for this sprint.
 
-Rules: finish this sprint; remove duplicates/low-signal; consolidate similar issues.
+**Tasks**
+1. Pull the full issue list from the most recent crawl.
+2. Score each issue by expected impact on (a) organic traffic and (b) crawl efficiency.
+3. Estimate effort. Drop duplicates / very low-signal items. Consolidate near-duplicates.
+4. Return the top 10–15 issues, ranked.
+
+**Output — Markdown table**
+
+| Rank | Issue | Severity | URLs affected | Sample URLs | Impact (traffic) | Impact (crawl) | Effort | Recommended fix | Acceptance criteria |
+|---|---|---|---|---|---|---|---|---|---|
+| 1 | … | high / med / low | int | url1, url2 | high / med / low + 1 sentence | high / med / low + 1 sentence | low / med / high | concrete next step | how we know it's fixed |
+
+End with a 3-bullet "**Why these and not others**" rationale.
 
 ---
 
 ## 2. Site Audit Issue Fixer
-Fix this technical SEO issue on **[your domain]**: **[paste issue details + URL(s)]**.
-Repo/location: **[GitHub repo URL + branch or local path]**.
 
-Task: diagnose root cause (which file/template generates it), implement smallest safe change, preserve SEO-critical behavior (canonical/redirect/hreflang/pagination/robots), verify via tests or a minimal smoke render.
+You are fixing a specific technical SEO issue on **[your domain]**.
 
-Output: root cause summary, PR diff/patch summary, before/after checks, rollback plan, review checklist.
+**Inputs**
+- Issue details: **[paste exact audit issue text]**
+- Example affected URL(s): **[paste 3–10 URLs]**
+- Repo / location to change: **[GitHub repo URL + branch, or local path]**
+
+**Tasks**
+1. Diagnose the root cause — find the template/controller/middleware that produces the bad output.
+2. Make the smallest safe change.
+3. Preserve SEO-critical behavior (redirects, canonical, hreflang, pagination params, robots).
+4. Verify: run available tests / build / lint; render an affected page and confirm the fix.
+
+**Output — sections in order**
+
+1. **Root cause** (3–6 bullets, ≤ 25 words each)
+2. **PR-ready diff** (unified diff; if not possible, a numbered patch plan referencing file paths and line numbers)
+3. **Before/after checks** — table:
+
+   | Check | Before | After | How to verify |
+   |---|---|---|---|
+
+4. **Rollback plan** (2–4 bullets)
+5. **Reviewer checklist** (5–8 yes/no items)
 
 ---
 
 ## 3. Declining Content Detection
-Weekly scan: diagnose pages on **[your domain]** whose organic traffic is declining in **[last 30/60/90 days]**.
 
-For each top page: priority (1–10), traffic-drop summary, evidence bullets, pick the most likely 1–3 causes (content freshness, backlink loss, SERP/feature shift, internal changes, cannibalization), and one next action + 2nd-best fallback.
+Weekly job: diagnose pages on **[your domain]** whose organic traffic is declining.
 
-Keep queue to top 10–20.
+**Inputs**
+- Time window: **[last 30 / 60 / 90 days — pick one]**
+- Optional focus: **[folder / category / template type]**
+
+**Tasks**
+1. Pull losing pages and compute a priority score from: magnitude of drop, intent value, and "fixability".
+2. For each top page pick the **single most likely** cause (allow up to 2 contributing causes) from: stale content, lost backlinks, SERP/feature shift, internal changes, cannibalization.
+3. Give one next action and a fallback action.
+4. Cap the queue at 10–20 URLs.
+
+**Output — CSV**
+
+```
+priority,url,prev_traffic,current_traffic,traffic_change_pct,cause_primary,cause_contributing,evidence,next_action,fallback_action,expected_timeline
+```
+
+End with a "**3 biggest patterns this week**" summary (3 bullets max).
 
 ---
 
 ## 4. Keyword Cannibalization Fix
-Find and fix **keyword cannibalization** on **[your domain]** (scope: [subfolder/entire domain]).
 
-Task: find intent/keyword overlap where multiple URLs compete; cluster into groups; choose a canonical winner using ranking/traffic, topical relevance, authority/link strength, and ability to expand.
+Find and fix keyword cannibalization on **[your domain]**.
 
-Output per group: keywords (5–20), ranked URLs, winner rationale, consolidation plan (merge/redirect/de-opt) + risks + what to verify.
+**Inputs**
+- Scope: **[subfolder or "entire domain"]**
+- Priority goal: **[max organic traffic / lift rankings for X / reduce index waste]**
+
+**Tasks**
+1. Find intent/keyword overlap where ≥ 2 URLs from the domain compete.
+2. Cluster into groups (one group = one intent owned by multiple URLs).
+3. Choose a canonical winner per group using ranking/traffic, topical relevance, authority/link strength, content completeness.
+4. Draft a consolidation plan: merge, redirect, de-optimize.
+
+**Output — table per group + summary CSV**
+
+For each group, a Markdown block:
+
+```
+### Group: <intent / theme>
+Keywords (top 5–20): …
+Winner URL: …
+Loser URLs: …
+Decision rationale: …
+Action plan:
+  - Merge: …
+  - Redirect: …
+  - De-optimize: …
+Risks / what to verify: …
+```
+
+Then one summary CSV at the end:
+
+```
+group_id,intent,winner_url,loser_urls,action_type,estimated_traffic_impact,confidence
+```
 
 ---
 
 ## 5. Trending Keyword Research
-Trend hunt for **[topic/seed]** targeting **[country + language]**.
-Growth rule: keywords with **25%+ growth over the last 3 months**.
 
-Task: semantic expansion (meaning/intent adjacency, not only exact-match variants), pull monthly volume history, filter by growth and guardrails (remove brand/local unless requested, remove non-starters), cluster into themes.
+Trend-hunt for **[your topic area / seed keyword]**.
 
-Output: theme map; per theme: representative keywords, trend summary, why it's heating up, and suggested content angle; top 5 themes to pursue.
+**Inputs**
+- Seed: **[1–3 core keywords or short topic sentence]**
+- Target market: **[country + language]** (or "global")
+- Growth rule: keywords with **25%+ growth over the last 3 months**
+- Min volume: **[set, or default to Ahrefs practical floor]**
+
+**Tasks**
+1. Semantic expansion (synonyms, near-synonyms, adjacent intents, subtopics competitors already cover).
+2. Pull monthly search volume history, compute 3-month growth.
+3. Filter by growth + guardrails: drop branded (unless requested), drop local-only (unless local target), drop non-starters.
+4. Cluster into themes.
+
+**Output — themes + flat CSV**
+
+For each theme, a Markdown block:
+
+```
+### Theme: <name>
+Why it's heating up: <1–2 sentences>
+Suggested content angle: <who it's for + what to say>
+Representative keywords (5–15): …
+```
+
+Plus a flat CSV of all kept keywords:
+
+```
+keyword,volume,kd,growth_3m_pct,theme,intent,parent_topic
+```
+
+Sorted: `theme` asc, `growth_3m_pct` desc.
 
 ---
 
 ## 6. Programmatic SEO Keywords
-Build programmatic SEO opportunities for **[domain/niche]**.
 
-Task: identify templatable keyword patterns (e.g., [X] in [city], [A] vs [B], role salary in [country], best [X] for [Y]); pull full variant demand; estimate intent + ranking friction; propose a template content model (required fields/sections, anti-thin-content/uniqueness rules, internal linking plan).
+Find programmatic SEO opportunities for **[your domain / niche]**.
 
-Flag risks: duplicate intent + cannibalization.
+**Inputs**
+- Pattern seeds: **[2–5 example patterns, or a topic sentence]**
+- Target market: **[country + language]**
+- Preferred intent: **[commercial / informational / mixed]**
+
+**Tasks**
+1. Identify templatable keyword patterns (e.g. `[X] in [city]`, `[A] vs [B]`, `[role] salary in [country]`, `best [X] for [Y]`).
+2. For each pattern: pull variant list, estimate volume + difficulty + intent.
+3. Propose a content model per pattern.
+4. Flag duplicate-intent / cannibalization risk.
+
+**Output — pattern blocks + master CSV**
+
+For each pattern, a Markdown block:
+
+```
+### Pattern: <pattern>
+Audience + intent: …
+Example variants (5–10): …
+Template structure (sections): …
+Required dynamic fields: …
+Uniqueness rules (anti-thin-content): …
+Internal linking: …
+Risks: …
+```
+
+Plus a master CSV across all variants:
+
+```
+pattern,variant_keyword,volume,kd,intent,estimated_traffic_potential,recommended_template
+```
+
+Sorted by `pattern, estimated_traffic_potential desc`.
 
 ---
 
 ## 7. Anchor Text Analysis
+
 Anchor text risk check for **[your domain]** focused on **[money page URLs]**.
 
-Inputs: competitors **[3–5 competitor domains]**, time window **[last 6–12 months]** (if supported).
+**Inputs**
+- Money pages: **[5–20 URLs]**
+- Competitors: **[3–5 competitor domains]**
+- Time window: **[last 6–12 months]** (if supported)
 
-Task: pull anchor distribution; categorize anchors (brand/exact/partial/generic/supporting); detect over-optimization patterns; benchmark vs competitors; recommend a practical diversification plan.
+**Tasks**
+1. Pull backlink anchor distribution per money page.
+2. Categorize: brand / exact-match / partial-match / generic / supporting.
+3. Detect over-optimization patterns vs competitor baseline.
+4. Recommend diversification per risky page.
 
-Output: risk table per money page + summary top 3 to address first.
+**Output — per-page table**
+
+| Money page | Brand % | Exact % | Partial % | Generic % | Supporting % | Risk level | Evidence | Diversification plan |
+|---|---|---|---|---|---|---|---|---|
+
+Add a competitor benchmark row per money page (same columns, but anchor shares averaged across the 3–5 competitors). End with "**Top 3 pages to address first**" + 1-sentence reason each.
 
 ---
 
 ## 8. AI Mention Gap Analysis
-AI mention gap analysis for **[your brand]** in **[topic area]**.
 
-Inputs: competitors **[competitor list]**, target market **[country/language if relevant]**, and your positioning **[1 paragraph]**.
+AI mention gap for **[your brand]** in **[your topic area]**.
 
-Task: build candidate prompts where competitors show up; determine whether your brand is missing/partial; score by demand + competitor frequency + positioning fit; for top gaps propose how to earn the mention (content type + angle + target page type).
+**Inputs**
+- Competitors: **[competitor 1], [competitor 2], [competitor 3]** (3–10)
+- Target market: **[country / language if relevant]**
+- Your positioning: **[1 paragraph on what you want to be known for]**
 
-Output: prioritized list of 10–30 target prompts with success criteria.
+**Tasks**
+1. Build candidate prompts/questions where competitors appear in AI answers.
+2. For each, mark whether your brand is fully present, partially present, or absent.
+3. Prioritize by prompt demand × competitor frequency × positioning fit.
+4. For each top gap, propose how to earn the mention.
+
+**Output — CSV**
+
+```
+prompt,competitors_mentioned,my_brand_status,prompt_demand,priority_score,gap_reason,recommended_content_angle,target_page_type,success_criteria
+```
+
+`my_brand_status ∈ {present, partial, absent}`. Sort by `priority_score desc`. Cap at 10–30 rows.
 
 ---
 
 ## 9. AI Citation Freshness Audit
-AI citation freshness for **[your domain]** in **[topic area]**.
 
-Inputs: competitors **[domains]**, freshness threshold **[e.g. older than 12–24 months]**, and your update cadence.
+AI citation freshness for **[your domain]** in **[your topic area]**.
 
-Task: identify cited pages (yours + competitors), assess freshness (recency + likelihood of outdated claims + coverage vs best practice), rank by staleness risk and reliance magnitude; recommend refresh/replace/retire.
+**Inputs**
+- Competitors: **[5–10 competitor domains]**
+- Freshness threshold: **["update if older than 12–24 months"]** (or your own rule)
+- Your update cadence: **[how often you can refresh]**
 
-Output: cited page list with evidence + action + effort + expected impact.
+**Tasks**
+1. Identify pages currently cited by AI systems for this topic (yours + competitors).
+2. Assess freshness from: last-updated/publish date, likely-outdated claims (pricing, features, policy), coverage vs current best practice.
+3. Rank by staleness × reliance magnitude.
+4. Recommend refresh / replace / retire per stale page.
+
+**Output — CSV**
+
+```
+cited_url,domain,citation_source,last_updated,freshness_label,staleness_evidence,reliance_score,recommended_action,effort,expected_ai_visibility_impact
+```
+
+`freshness_label ∈ {fresh, somewhat_stale, stale}`. Sort by `reliance_score desc, last_updated asc`. End with "**Top 3 pages to refresh first**" + 1 sentence each.
 
 ---
 
 ## 10. EEAT Audit
+
 EEAT audit for **[your domain]**.
 
-Inputs: page types to prioritize ([homepage/categories/product pages/guides/FAQs/location pages]) + evidence resources.
+**Inputs**
+- Page types to prioritize: **[homepage / category / product / guides / FAQs / location pages]**
+- Evidence resources: **[1–2 links or notes about internal research, customer proof, author bios, credentials]**
 
-Task: for each page type identify concrete Experience/Expertise/Authoritativeness/Trust gaps (avoid generic advice). For each gap propose exactly what to add/change and where; prioritize by impact + feasibility.
+**Tasks**
+1. For each page type, audit Experience / Expertise / Authoritativeness / Trustworthiness signals.
+2. Identify concrete gaps (no generic advice).
+3. For each gap propose exactly what to add and where in the page structure.
+4. Prioritize by impact × feasibility.
 
-Output: EEAT scorecard per page type + top 3 fixes + 1–2 week plan.
+**Output — scorecard table per page type**
+
+| Page type | E score (1–5) | E gaps | E fixes | E score (1–5) | E gaps | E fixes | A score (1–5) | A gaps | A fixes | T score (1–5) | T gaps | T fixes |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+
+(First "E" = Experience, second "E" = Expertise.) Add a single "**Top 3 fixes this week**" list plus a 1–2 week action plan with owner + deadline columns.
 
 ---
 
 ## Bonus. Reddit Listener (Demand + Outreach Briefs)
+
 Monitor Reddit for demand discovery for **[brand + category]**.
 
-Inputs: subreddits **[list]**, keywords **[brand/category/pains/competitors]**, time window, and response style.
+**Inputs**
+- Subreddits: **[list]**
+- Keywords: **[brand / category / pains / competitors]**
+- Time window: **[last 7 / 30 days]**
+- Response style: **[helpful / expert / short / long-form]**
 
-Task: find high-signal threads; extract intent + exact debate + what tried + why incomplete; write thread briefs (summary, response angle, linkable resource type, suggested comment) and categorize opportunities.
+**Tasks**
+1. Find high-signal threads (real questions, repeated pains, decision moments; exclude self-promo/spam).
+2. For each thread extract: intent, exact debate / claim, what users tried, why existing answers fall short.
+3. Write a thread brief with a non-salesy comment draft and a "linkable" resource type to point to.
+4. Categorize the opportunity (content idea / outreach / long-tail keyword idea).
 
-Output: 8–20 thread briefs + one-line why it matters + suggested weekly plan.
+**Output — CSV + thread blocks**
+
+CSV header:
+
+```
+thread_url,subreddit,intent,why_it_matters,opportunity_type,suggested_resource_type,priority
+```
+
+Then a Markdown block per top thread:
+
+```
+### <thread title>
+Summary (4–6 bullets):
+Proposed response angle:
+Suggested comment draft (non-salesy, ≤ 120 words):
+Linkable resource to create or point to:
+```
+
+Cap at 8–20 briefs. End with a weekly outreach/content plan grouped by `opportunity_type`.
