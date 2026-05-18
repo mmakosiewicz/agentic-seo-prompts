@@ -8,7 +8,14 @@ Each prompt ends with a **strict output schema** (Markdown / CSV columns) so the
 
 ## 1. Site Audit Discovery
 
-Run an Ahrefs Site Audit for **[your domain]** (primary crawl scope; include country/language focus if relevant). Triage the issue list into a ranked fix queue for this sprint.
+*Maps to workflow 1 in the article.*
+
+Run an Ahrefs Site Audit for **[your domain]** and triage the issue list into a ranked fix queue for this sprint.
+
+**Inputs**
+- Domain / crawl scope: **[your domain]**
+- Country / language focus: **[country + language, or "global"]**
+- Sprint capacity: **[hours or person-days available this sprint]**
 
 **Tasks**
 1. Pull the full issue list from the most recent crawl.
@@ -27,6 +34,8 @@ End with a 3-bullet "**Why these and not others**" rationale.
 ---
 
 ## 2. Site Audit Issue Fixer
+
+*Maps to workflow 2 in the article.*
 
 You are fixing a specific technical SEO issue on **[your domain]**.
 
@@ -57,6 +66,8 @@ You are fixing a specific technical SEO issue on **[your domain]**.
 
 ## 3. Declining Content Detection
 
+*Maps to workflow 3 in the article.*
+
 Weekly job: diagnose pages on **[your domain]** whose organic traffic is declining.
 
 **Inputs**
@@ -80,6 +91,8 @@ End with a "**3 biggest patterns this week**" summary (3 bullets max).
 ---
 
 ## 4. Keyword Cannibalization Fix
+
+*Maps to workflow 4 in the article.*
 
 Find and fix keyword cannibalization on **[your domain]**.
 
@@ -120,6 +133,8 @@ group_id,intent,winner_url,loser_urls,action_type,estimated_traffic_impact,confi
 
 ## 5. Trending Keyword Research
 
+*Maps to workflow 5 in the article.*
+
 Trend-hunt for **[your topic area / seed keyword]**.
 
 **Inputs**
@@ -156,6 +171,8 @@ Sorted: `theme` asc, `growth_3m_pct` desc.
 ---
 
 ## 6. Programmatic SEO Keywords
+
+*Maps to workflow 6 in the article.*
 
 Find programmatic SEO opportunities for **[your domain / niche]**.
 
@@ -197,6 +214,8 @@ Sorted by `pattern, estimated_traffic_potential desc`.
 
 ## 7. Anchor Text Analysis
 
+*Maps to workflow 7 in the article.*
+
 Anchor text risk check for **[your domain]** focused on **[money page URLs]**.
 
 **Inputs**
@@ -220,6 +239,8 @@ Add a competitor benchmark row per money page (same columns, but anchor shares a
 ---
 
 ## 8. AI Mention Gap Analysis
+
+*Maps to workflow 8 in the article.*
 
 AI mention gap for **[your brand]** in **[your topic area]**.
 
@@ -246,6 +267,8 @@ prompt,competitors_mentioned,my_brand_status,prompt_demand,priority_score,gap_re
 
 ## 9. AI Citation Freshness Audit
 
+*Maps to workflow 9 in the article.*
+
 AI citation freshness for **[your domain]** in **[your topic area]**.
 
 **Inputs**
@@ -271,6 +294,8 @@ cited_url,domain,citation_source,last_updated,freshness_label,staleness_evidence
 
 ## 10. EEAT Audit
 
+*Maps to workflow 10 in the article.*
+
 EEAT audit for **[your domain]**.
 
 **Inputs**
@@ -285,14 +310,16 @@ EEAT audit for **[your domain]**.
 
 **Output — scorecard table per page type**
 
-| Page type | E score (1–5) | E gaps | E fixes | E score (1–5) | E gaps | E fixes | A score (1–5) | A gaps | A fixes | T score (1–5) | T gaps | T fixes |
+| Page type | Exp score (1–5) | Exp gaps | Exp fixes | Expt score (1–5) | Expt gaps | Expt fixes | Auth score (1–5) | Auth gaps | Auth fixes | Trust score (1–5) | Trust gaps | Trust fixes |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 
-(First "E" = Experience, second "E" = Expertise.) Add a single "**Top 3 fixes this week**" list plus a 1–2 week action plan with owner + deadline columns.
+(`Exp` = Experience, `Expt` = Expertise, `Auth` = Authoritativeness, `Trust` = Trustworthiness.) Add a single "**Top 3 fixes this week**" list plus a 1–2 week action plan with owner + deadline columns.
 
 ---
 
 ## Bonus. Reddit Listener (Demand + Outreach Briefs)
+
+*Maps to the Bonus workflow in the article.*
 
 Monitor Reddit for demand discovery for **[brand + category]**.
 
