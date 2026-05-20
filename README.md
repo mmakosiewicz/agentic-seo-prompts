@@ -1,23 +1,25 @@
 # Agentic SEO — Agent A workflow prompts
 
-Companion repo for the article "What is agentic SEO and how do you get started?". Each section below is a copy/paste prompt for **Agent A** to recreate one of the workflows in the post.
+Companion repo for the article **["What is agentic SEO and how do you get started?"](https://ahrefs.com/blog/agentic-seo/)**. Each section below is a copy/paste prompt for **Agent A** to recreate one of the eight workflows in the post (plus a Bonus).
 
 Each prompt ends with a **strict output schema** (Markdown / CSV columns) so the agent returns something you can paste into a spreadsheet, ticket, or doc — not a wall of text. Replace anything in **[brackets]** with your own values.
 
 ---
 
-## 1. Site Audit Discovery
+## 1. Site Audit Triage (with optional PR fix)
 
 *Maps to workflow 1 in the article.*
 
-Run an Ahrefs Site Audit for **[your domain]** and triage the issue list into a ranked fix queue for this sprint.
+Run an Ahrefs Site Audit for **[your domain]**, triage the issue list into a ranked fix queue for this sprint, and — optionally — open a pull request with the fix for the top issue.
 
 **Inputs**
 - Domain / crawl scope: **[your domain]**
 - Country / language focus: **[country + language, or "global"]**
 - Sprint capacity: **[hours or person-days available this sprint]**
+- (Optional) Repo / location to change: **[GitHub repo URL + branch, or local path]** — only needed if you want a PR
 
-**Tasks**
+**Part A — Triage**
+
 1. Pull the full issue list from the most recent crawl.
 2. Score each issue by expected impact on (a) organic traffic and (b) crawl efficiency.
 3. Estimate effort. Drop duplicates / very low-signal items. Consolidate near-duplicates.
@@ -31,20 +33,10 @@ Run an Ahrefs Site Audit for **[your domain]** and triage the issue list into a 
 
 End with a 3-bullet "**Why these and not others**" rationale.
 
----
+**Part B — Fix in code (optional)**
 
-## 2. Site Audit Issue Fixer
+If a repo is provided, pick the top-ranked issue and:
 
-*Maps to workflow 2 in the article.*
-
-You are fixing a specific technical SEO issue on **[your domain]**.
-
-**Inputs**
-- Issue details: **[paste exact audit issue text]**
-- Example affected URL(s): **[paste 3–10 URLs]**
-- Repo / location to change: **[GitHub repo URL + branch, or local path]**
-
-**Tasks**
 1. Diagnose the root cause — find the template/controller/middleware that produces the bad output.
 2. Make the smallest safe change.
 3. Preserve SEO-critical behavior (redirects, canonical, hreflang, pagination params, robots).
@@ -64,9 +56,9 @@ You are fixing a specific technical SEO issue on **[your domain]**.
 
 ---
 
-## 3. Declining Content Detection
+## 2. Declining Content Detection
 
-*Maps to workflow 3 in the article.*
+*Maps to workflow 2 in the article.*
 
 Weekly job: diagnose pages on **[your domain]** whose organic traffic is declining.
 
@@ -90,9 +82,9 @@ End with a "**3 biggest patterns this week**" summary (3 bullets max).
 
 ---
 
-## 4. Keyword Cannibalization Fix
+## 3. Keyword Cannibalization Fix
 
-*Maps to workflow 4 in the article.*
+*Maps to workflow 3 in the article.*
 
 Find and fix keyword cannibalization on **[your domain]**.
 
@@ -131,9 +123,9 @@ group_id,intent,winner_url,loser_urls,action_type,estimated_traffic_impact,confi
 
 ---
 
-## 5. Trending Keyword Research
+## 4. Trending Keyword Research
 
-*Maps to workflow 5 in the article.*
+*Maps to workflow 4 in the article.*
 
 Trend-hunt for **[your topic area / seed keyword]**.
 
@@ -170,9 +162,9 @@ Sorted: `theme` asc, `growth_3m_pct` desc.
 
 ---
 
-## 6. Programmatic SEO Keywords
+## 5. Programmatic SEO Keywords
 
-*Maps to workflow 6 in the article.*
+*Maps to workflow 5 in the article.*
 
 Find programmatic SEO opportunities for **[your domain / niche]**.
 
@@ -212,35 +204,9 @@ Sorted by `pattern, estimated_traffic_potential desc`.
 
 ---
 
-## 7. Anchor Text Analysis
+## 6. AI Mention Gap Analysis
 
-*Maps to workflow 7 in the article.*
-
-Anchor text risk check for **[your domain]** focused on **[money page URLs]**.
-
-**Inputs**
-- Money pages: **[5–20 URLs]**
-- Competitors: **[3–5 competitor domains]**
-- Time window: **[last 6–12 months]** (if supported)
-
-**Tasks**
-1. Pull backlink anchor distribution per money page.
-2. Categorize: brand / exact-match / partial-match / generic / supporting.
-3. Detect over-optimization patterns vs competitor baseline.
-4. Recommend diversification per risky page.
-
-**Output — per-page table**
-
-| Money page | Brand % | Exact % | Partial % | Generic % | Supporting % | Risk level | Evidence | Diversification plan |
-|---|---|---|---|---|---|---|---|---|
-
-Add a competitor benchmark row per money page (same columns, but anchor shares averaged across the 3–5 competitors). End with "**Top 3 pages to address first**" + 1-sentence reason each.
-
----
-
-## 8. AI Mention Gap Analysis
-
-*Maps to workflow 8 in the article.*
+*Maps to workflow 6 in the article.*
 
 AI mention gap for **[your brand]** in **[your topic area]**.
 
@@ -265,9 +231,9 @@ prompt,competitors_mentioned,my_brand_status,prompt_demand,priority_score,gap_re
 
 ---
 
-## 9. AI Citation Freshness Audit
+## 7. AI Citation Freshness Audit
 
-*Maps to workflow 9 in the article.*
+*Maps to workflow 7 in the article.*
 
 AI citation freshness for **[your domain]** in **[your topic area]**.
 
@@ -292,9 +258,9 @@ cited_url,domain,citation_source,last_updated,freshness_label,staleness_evidence
 
 ---
 
-## 10. EEAT Audit
+## 8. EEAT Audit
 
-*Maps to workflow 10 in the article.*
+*Maps to workflow 8 in the article.*
 
 EEAT audit for **[your domain]**.
 
