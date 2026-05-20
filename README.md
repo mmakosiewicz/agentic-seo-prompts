@@ -68,7 +68,7 @@ Weekly job: diagnose pages on **[your domain]** whose organic traffic is declini
 
 **Tasks**
 1. Pull losing pages and compute a priority score from: magnitude of drop, intent value, and "fixability".
-2. For each top page pick the **single most likely** cause (allow up to 2 contributing causes) from: stale content, lost backlinks, SERP/feature shift, internal changes, cannibalization.
+2. For each top page pick the **single most likely** cause (allow up to 2 contributing causes) from: stale content, lost backlinks, AI Overview / AI answer taking clicks, SERP/feature shift, competitor pushed you down, internal changes, cannibalization.
 3. Give one next action and a fallback action.
 4. Cap the queue at 10–20 URLs.
 
@@ -283,40 +283,41 @@ EEAT audit for **[your domain]**.
 
 ---
 
-## Bonus. Reddit Listener (Demand + Outreach Briefs)
+## Bonus. Reddit Listener (Demand Discovery)
 
 *Maps to the Bonus workflow in the article.*
 
-Monitor Reddit for demand discovery for **[brand + category]**.
+Monitor Reddit for relevant conversations about **[brand + category]** — summarize what's being said, where, and how you could enter the conversation. Useful for **demand discovery** and **link-building angles** that start with a real thread. Not an outreach automation — it's a listening brief.
 
 **Inputs**
 - Subreddits: **[list]**
 - Keywords: **[brand / category / pains / competitors]**
 - Time window: **[last 7 / 30 days]**
-- Response style: **[helpful / expert / short / long-form]**
 
 **Tasks**
 1. Find high-signal threads (real questions, repeated pains, decision moments; exclude self-promo/spam).
-2. For each thread extract: intent, exact debate / claim, what users tried, why existing answers fall short.
-3. Write a thread brief with a non-salesy comment draft and a "linkable" resource type to point to.
-4. Categorize the opportunity (content idea / outreach / long-tail keyword idea).
+2. For each thread summarize: what's being said, what users have tried, why existing answers fall short.
+3. Note one way you *could* enter the conversation (could be a helpful comment, a piece of content worth writing, or a link-building outreach angle — one line, no draft).
+4. Categorize each thread: `demand_discovery` / `link_building` / `content_idea`.
 
 **Output — CSV + thread blocks**
 
 CSV header:
 
 ```
-thread_url,subreddit,intent,why_it_matters,opportunity_type,suggested_resource_type,priority
+thread_url,subreddit,what_is_being_said,why_it_matters,opportunity_type,how_to_enter_conversation,priority
 ```
+
+`opportunity_type ∈ {demand_discovery, link_building, content_idea}`.
 
 Then a Markdown block per top thread:
 
 ```
 ### <thread title>
-Summary (4–6 bullets):
-Proposed response angle:
-Suggested comment draft (non-salesy, ≤ 120 words):
-Linkable resource to create or point to:
+Subreddit: …
+Summary (4–6 bullets — what's being said, where the debate is, what users tried):
+Why it matters (signal for demand / link / content idea):
+How you could enter the conversation: <one sentence>
 ```
 
-Cap at 8–20 briefs. End with a weekly outreach/content plan grouped by `opportunity_type`.
+Cap at 8–20 briefs. End with a "**This week's signals**" recap grouped by `opportunity_type` (3 bullets max per group).
