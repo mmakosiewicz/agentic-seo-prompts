@@ -326,7 +326,7 @@ Add a **"Top 3 fixes this week"** list (trust gaps first if any exist) plus a 1�
 
 ## Bonus. Reddit Listener (Demand Discovery)
 
-*Maps to the Bonus workflow in the article. Custom workflow — no prebuilt skill; build your own prompt.*
+*Maps to the Bonus workflow in the article. Custom workflow — Agent A doesn't ship a prebuilt skill for this one; build your own prompt with the structure below.*
 
 Monitor Reddit for relevant conversations about **[brand + category]** — summarize what's being said, where, and how you could enter the conversation. Useful for **demand discovery** and **link-building angles** that start with a real thread. Not an outreach automation — it's a listening brief.
 
